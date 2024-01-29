@@ -5,6 +5,7 @@ import com.Employees.demo.dto.Departmentdto;
 import com.Employees.demo.dto.Employeedto;
 import com.Employees.demo.entity.Department;
 import com.Employees.demo.entity.Employee;
+import com.Employees.demo.exception.InvalidEmpNameException;
 import com.Employees.demo.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,9 @@ public class EmployeeController {
             Employee employee = employeeService.createEmployee(employeedto.getEmpName(), employeedto.getDesignation(), employeedto.getDeptId() );
 
             return new ResponseEntity<>(employee, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
+
+        }
+        catch (InvalidEmpNameException | IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

@@ -2,6 +2,7 @@ package com.Employees.demo.service;
 
 import com.Employees.demo.entity.Department;
 import com.Employees.demo.entity.Employee;
+import com.Employees.demo.exception.InvalidEmpNameException;
 import com.Employees.demo.repository.DepartmentRepository;
 import com.Employees.demo.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public Employee createEmployee(String empName, String designation, int deptId) {
         if(empName==null || empName.isEmpty()){
             throw new IllegalArgumentException("Name is required");
+        }
+        if (!Character.isUpperCase(empName.charAt(0))) {
+            throw new InvalidEmpNameException("EmpName should have the first character capitalized");
         }
         Optional<Department> ds1= departmentRepository.findById(deptId);
         Department d1 = ds1.get();
